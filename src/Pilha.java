@@ -4,6 +4,7 @@ public class Pilha<E> {
 
 	private Celula<E> topo;
 	private Celula<E> fundo;
+	private Celula<E> atual;
 
 	public Pilha() {
 
@@ -40,6 +41,23 @@ public class Pilha<E> {
 
 	}
 
+	void imprimir() {
+		System.out.println(atual.getItem());
+		atual = atual.getProximo();
+	}
+
+	void imprime_certo() {
+		Celula<E> atual = topo;
+		certo(atual);
+	}
+
+	void certo(Celula<E> atual) {
+		if (atual != fundo) {
+			certo(atual.getProximo());
+			System.out.println(atual.getItem());
+		}
+	}
+
 	/**
 	 * Cria e devolve uma nova pilha contendo os primeiros numItens elementos
 	 * do topo da pilha atual.
@@ -49,12 +67,23 @@ public class Pilha<E> {
 	 * uma exceção será lançada.
 	 *
 	 * @param numItens o número de itens a serem copiados da pilha original.
-	 * @return uma nova instância de Pilha<E> contendo os numItens primeiros elementos.
+	 * @return uma nova instância de Pilha<E> contendo os numItens primeiros
+	 *         elementos.
 	 * @throws IllegalArgumentException se a pilha não contém numItens elementos.
 	 */
 	public Pilha<E> subPilha(int numItens) {
-		
-		// TODO
-		return null;
+		Pilha<E> retorno = new Pilha<E>();
+		Pilha<E> auxiliar = new Pilha<E>();
+
+		for (int i = 0; i < numItens; i++) {
+			retorno.empilhar(desempilhar());
+			topo = topo.getProximo();
+		}
+
+		while (!retorno.vazia()) {
+			auxiliar.empilhar(retorno.desempilhar());
+		}
+
+		return auxiliar;
 	}
 }
